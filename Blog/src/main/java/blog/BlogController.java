@@ -1,5 +1,6 @@
 package blog;
 
+import blog.Entity.User;
 import blog.Form.InscriptionForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 
@@ -30,6 +32,16 @@ public class BlogController {
         if (bindingResult.hasErrors()) {
             return "inscription";
         }
+
+        RestTemplate restTemplate = new RestTemplate();
+        User u = new User(
+            inscriptionForm.getUsername(),
+            inscriptionForm.getEmail(),
+            inscriptionForm.getPassword(),
+            inscriptionForm.getAvatar()
+        );
+
+        User user = restTemplate.postForObject("http://localhost:8000/api/users/", u, User.class);
 
         return "redirect:/";
     }
