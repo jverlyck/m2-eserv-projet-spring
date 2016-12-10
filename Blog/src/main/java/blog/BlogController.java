@@ -2,6 +2,7 @@ package blog;
 
 import blog.Entity.Post;
 import blog.Entity.User;
+import blog.Form.EditProfilForm;
 import blog.Form.InscriptionForm;
 import blog.Form.LoginForm;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,8 @@ import javax.validation.Valid;
 
 @Controller
 public class BlogController {
+
+    private User user;
 
     @RequestMapping("/")
     public String index(Model model) {
@@ -48,7 +51,9 @@ public class BlogController {
         if(user == null){
             return "login";
         }
-        
+
+        this.user = user;
+
         return "redirect:/";
     }
 
@@ -87,5 +92,47 @@ public class BlogController {
         model.addAttribute("posts", posts);
 
         return "profil";
+    }
+
+    @RequestMapping(value = "/profil-edit", method = RequestMethod.GET)
+    public String showEditProfil(EditProfilForm editProfilForm, Model model) {
+        if(this.user == null) {
+            return "redirect:login";
+        }
+
+        model.addAttribute("username", this.user.getUsername());
+        model.addAttribute("email", this.user.getEmail());
+        model.addAttribute("avatar", this.user.getAvatar());
+
+        return "editProfil";
+    }
+
+    @RequestMapping(value = "/profil-edit", method = RequestMethod.POST)
+    public String editProfil(@Valid EditProfilForm editProfilForm, BindingResult bindingResult, Model model) {
+        if(this.user == null) {
+            return "redirect:login";
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", true);
+            model.addAttribute("username", this.user.getUsername());
+            model.addAttribute("email", editProfilForm.getEmail());
+            model.addAttribute("avatar", editProfilForm.getAvatar());
+            return "editProfil";
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+        User u = new User(
+                this.user.getUsername(),
+                editProfilForm.getEmail(),
+                this.user.getPassword(),
+                editProfilForm.getAvatar()
+        );
+
+        restTemplate.put("http://localhost:8000/api/users/" + this.user.getId(), u, User.class);
+
+        this.user = u;
+
+        return "redirect:profil/" + this.user.getUsername();
     }
 }
