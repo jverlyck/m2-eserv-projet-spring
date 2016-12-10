@@ -4,6 +4,7 @@ import blog.Entity.Post;
 import blog.Entity.User;
 import blog.Form.InscriptionForm;
 import blog.Form.LoginForm;
+import blog.Form.CommentaireForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class BlogController {
@@ -87,5 +90,40 @@ public class BlogController {
         model.addAttribute("posts", posts);
 
         return "profil";
+    }
+
+    @RequestMapping(value = "/commentaire", method = RequestMethod.GET)
+    public String showCommentaire(CommentaireForm commentaireForm) {
+        return "commentaire";
+    }
+
+    @RequestMapping(value = "/commentaire", method = RequestMethod.POST)
+    public String checkCommentaire(@Valid CommentaireForm commentaireForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "commentaire";
+        }
+        List<String> tags = new ArrayList<String>();
+        String tag ="";int j=1;
+        for(int i=0;i<commentaireForm.getCommentaire().length();i++){
+            if(commentaireForm.getCommentaire().charAt(i) == '#'){
+                while(commentaireForm.getCommentaire().charAt(i+j) != ' ' || (i+j)!=commentaireForm.getCommentaire().length()){
+                    tag += commentaireForm.getCommentaire().charAt(i+j);
+                    j++;
+                }
+                j=1;
+                tags.add(tag);
+                tag="";
+            }
+        }
+        RestTemplate restTemplate = new RestTemplate();
+        Post p = new Post(
+                "dimitri",
+                commentaireForm.getCommentaire()+tag,
+                tags
+        );
+
+        Post post = restTemplate.postForObject("http://localhost:8000/api/posts/", p, Post.class);
+
+        return "redirect:/";
     }
 }
