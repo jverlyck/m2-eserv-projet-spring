@@ -113,7 +113,7 @@ public class BlogController {
         int j = 1;
         for (int i = 0; i < commentaireForm.getCommentaire().length(); i++) {
             if (commentaireForm.getCommentaire().charAt(i) == '#') {
-                while (commentaireForm.getCommentaire().charAt(i + j) != ' ' || (i + j) != commentaireForm.getCommentaire().length()) {
+                while ((commentaireForm.getCommentaire().charAt(i + j) != ' ') || ((i + j) == commentaireForm.getCommentaire().length())) {
                     tag += commentaireForm.getCommentaire().charAt(i + j);
                     j++;
                 }
