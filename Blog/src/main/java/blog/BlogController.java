@@ -111,10 +111,11 @@ public class BlogController {
         List<String> tags = new ArrayList<String>();
         String tag = "";
         int j = 1;
-        for (int i = 0; i < commentaireForm.getCommentaire().length(); i++) {
-            if (commentaireForm.getCommentaire().charAt(i) == '#') {
-                while ((commentaireForm.getCommentaire().charAt(i + j) != ' ') || ((i + j) == commentaireForm.getCommentaire().length())) {
-                    tag += commentaireForm.getCommentaire().charAt(i + j);
+        String message = commentaireForm.getCommentaire()+" f";
+        for (int i = 0; i < message.length(); i++) {
+            if (message.charAt(i) == '#') {
+                while ((message.charAt(i + j) != ' ') || ((i + j) == message.length())) {
+                    tag += message.charAt(i + j);
                     j++;
                 }
                 j = 1;
