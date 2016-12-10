@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Blog - Profil</title>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/bootstrap-social.css"/>
+
+    <link rel="stylesheet" href="../css/font-awesome.min.css"/>
+
+    <link rel="stylesheet" href="../css/pure-min.css"/>
+    <link rel="stylesheet" href="../css/grids-responsive-min.css"/>
+
+    <link rel="stylesheet" href="../css/blog.css"/>
+</head>
+
+<body>
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+        <div class="header">
+            <h1 class="brand-title"><a href="/">Blog</a></h1>
+            <h2 class="brand-tagline">project spring</h2>
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="pure-button" href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+
+            <div class="posts">
+                <h1 class="content-subhead">Profile</h1>
+                <h1 th:text="${user.username}">Profil</h1>
+                <img class="avatar" src="../images/vador-avatar.png"/>
+
+                <form class="pure-form pure-form-aligned">
+                    <fieldset>
+                        <div class="pure-control-group">
+                            <label>Username :</label>
+                            <label th:text="${user.username}">username</label>
+                        </div>
+
+                        <div class="pure-control-group">
+                            <label>Email :</label>
+                            <label th:text="${user.email}">email</label>
+                        </div>
+                    </fieldset>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div class="posts">
+            <h1 class="content-subhead">Last tweets</h1>
+            <div>
+                <section class="post">
+                    <img class="post-avatar" alt="Yoda&#x27;s avatar" height="48" width="48" src="../images/yoda-avatar.png"/>
+
+                    <div class="post-description">
+                        <p><a class="post-author" href="../profils/vador.html">@Vador</a> : Stop this #DarkSide bullshit you should</p>
+                    </div>
+
+                    <p class="post-meta">
+                        21 minutes ago -
+                        By <a class="post-author" href="../profils/yoda.html">Yoda</a>
+                        under
+                        <a class="post-category post-category-js" href="../hashtags/DarkSide.html">#DarkSide</a>
+                    </p>
+                </section>
+
+                <section class="post">
+                    <img class="post-avatar" alt="vador&#x27;s avatar" height="48" width="48" src="../images/vador-avatar.png"/>
+
+                    <div class="post-description">
+                        <p><a class="post-author" href="../profils/luke.html">@Luke</a>, come join me to the #DarkSide, we have #Cookies</p>
+                    </div>
+
+                    <p class="post-meta">
+                        32 minutes ago -
+                        By <a class="post-author" href="../profils/vador.html">Vador</a>
+                        under
+                        <a class="post-category post-category-js" href="../hashtags/DarkSide.html">#DarkSide</a> <a class="post-category post-category-js" href="../hashtags/Cookies.html">#Cookies</a>
+                    </p>
+                </section>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

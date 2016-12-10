@@ -5,6 +5,7 @@ import blog.Form.InscriptionForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,5 +45,14 @@ public class BlogController {
         User user = restTemplate.postForObject("http://localhost:8000/api/users/", u, User.class);
 
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/profil/{name}", method = RequestMethod.GET)
+    public String profil(@PathVariable String name, Model model) {
+        RestTemplate restTemplate = new RestTemplate();
+        User user = restTemplate.getForObject("http://localhost:8000/api/users/" + name, User.class);
+
+        model.addAttribute(user);
+        return "profil";
     }
 }

@@ -17,9 +17,9 @@ public class UserController {
         return this.repository.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User getUser(@PathVariable Long id) {
-        return this.repository.findOne(id);
+    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
+    public User getUserByUsername(@PathVariable String name) {
+        return this.repository.findByUsername(name);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
