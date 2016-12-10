@@ -2,6 +2,7 @@ package blog.Entity;
 
 public class User {
 
+    private Long id;
     private String username;
     private String email;
     private String password;
@@ -14,6 +15,10 @@ public class User {
         this.email = email;
         this.password = password;
         this.avatar = avatar;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUsername() {
@@ -47,4 +52,6 @@ public class User {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+
 }

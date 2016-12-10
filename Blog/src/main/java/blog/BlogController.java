@@ -2,6 +2,7 @@ package blog;
 
 import blog.Entity.Post;
 import blog.Entity.User;
+import blog.Form.EditProfilForm;
 import blog.Form.InscriptionForm;
 import blog.Form.LoginForm;
 import blog.Form.CommentaireForm;
@@ -19,6 +20,8 @@ import java.util.List;
 
 @Controller
 public class BlogController {
+
+    private User user;
 
     @RequestMapping("/")
     public String index(Model model) {
@@ -51,7 +54,9 @@ public class BlogController {
         if(user == null){
             return "login";
         }
-        
+
+        this.user = user;
+
         return "redirect:/";
     }
 
@@ -92,6 +97,7 @@ public class BlogController {
         return "profil";
     }
 
+
     @RequestMapping(value = "/commentaire", method = RequestMethod.GET)
     public String showCommentaire(CommentaireForm commentaireForm) {
         return "commentaire";
@@ -103,27 +109,71 @@ public class BlogController {
             return "commentaire";
         }
         List<String> tags = new ArrayList<String>();
-        String tag ="";int j=1;
-        for(int i=0;i<commentaireForm.getCommentaire().length();i++){
-            if(commentaireForm.getCommentaire().charAt(i) == '#'){
-                while(commentaireForm.getCommentaire().charAt(i+j) != ' ' || (i+j)!=commentaireForm.getCommentaire().length()){
-                    tag += commentaireForm.getCommentaire().charAt(i+j);
+        String tag = "";
+        int j = 1;
+        for (int i = 0; i < commentaireForm.getCommentaire().length(); i++) {
+            if (commentaireForm.getCommentaire().charAt(i) == '#') {
+                while (commentaireForm.getCommentaire().charAt(i + j) != ' ' || (i + j) != commentaireForm.getCommentaire().length()) {
+                    tag += commentaireForm.getCommentaire().charAt(i + j);
                     j++;
                 }
-                j=1;
+                j = 1;
                 tags.add(tag);
-                tag="";
+                tag = "";
             }
         }
         RestTemplate restTemplate = new RestTemplate();
         Post p = new Post(
                 "dimitri",
-                commentaireForm.getCommentaire()+tag,
+                commentaireForm.getCommentaire() + tag,
                 tags
         );
 
         Post post = restTemplate.postForObject("http://localhost:8000/api/posts/", p, Post.class);
 
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/profil-edit", method = RequestMethod.GET)
+    public String showEditProfil(EditProfilForm editProfilForm, Model model) {
+        if(this.user == null) {
+            return "redirect:login";
+        }
+
+        model.addAttribute("username", this.user.getUsername());
+        model.addAttribute("email", this.user.getEmail());
+        model.addAttribute("avatar", this.user.getAvatar());
+
+        return "editProfil";
+    }
+
+    @RequestMapping(value = "/profil-edit", method = RequestMethod.POST)
+    public String editProfil(@Valid EditProfilForm editProfilForm, BindingResult bindingResult, Model model) {
+        if(this.user == null) {
+            return "redirect:login";
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", true);
+            model.addAttribute("username", this.user.getUsername());
+            model.addAttribute("email", editProfilForm.getEmail());
+            model.addAttribute("avatar", editProfilForm.getAvatar());
+            return "editProfil";
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+        User u = new User(
+                this.user.getUsername(),
+                editProfilForm.getEmail(),
+                this.user.getPassword(),
+                editProfilForm.getAvatar()
+        );
+
+        restTemplate.put("http://localhost:8000/api/users/" + this.user.getId(), u, User.class);
+
+        this.user = u;
+
+        return "redirect:profil/" + this.user.getUsername();
+
     }
 }
