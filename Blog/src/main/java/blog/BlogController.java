@@ -3,6 +3,7 @@ package blog;
 import blog.Entity.Post;
 import blog.Entity.User;
 import blog.Form.InscriptionForm;
+import blog.Form.LoginForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,30 @@ public class BlogController {
         model.addAttribute("posts", posts);
 
         return "accueil";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String showLogin(LoginForm loginForm) {
+        return "login";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String checkLogin(@Valid LoginForm loginForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "login";
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+        String username = loginForm.getUsername();
+        String password = loginForm.getPassword();
+        User user = restTemplate.getForObject("http://localhost:8000/api/users/checkLogin/" + username + "/" + password , User.class);
+
+        if(user == null){
+            return "login";
+        }
+        
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/inscription", method = RequestMethod.GET)

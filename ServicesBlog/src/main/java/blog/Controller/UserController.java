@@ -22,6 +22,11 @@ public class UserController {
         return this.repository.findByUsername(name);
     }
 
+    @RequestMapping(value = "/checkLogin/{username}/{password}", method = RequestMethod.GET)
+    public User getUserByUsernameAndPassword(@PathVariable String username, @PathVariable String password) {
+        return this.repository.findByUsernameAndPassword(username, password);
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public User postUser(@RequestBody User user) {
         return this.repository.save(user);

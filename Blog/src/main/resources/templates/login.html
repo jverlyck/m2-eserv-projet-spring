@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Blog - Login</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-social.css"/>
+
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+
+    <link rel="stylesheet" href="css/pure-min.css"/>
+    <link rel="stylesheet" href="css/grids-responsive-min.css"/>
+
+    <link rel="stylesheet" href="css/blog.css"/>
+
+</head>
+
+<body>
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+        <div class="header">
+            <h1 class="brand-title"><a href="/">Blog</a></h1>
+            <h2 class="brand-tagline">project spring</h2>
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="pure-button" href="/login">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            <h1>Login</h1>
+
+            <form action="#" th:action="@{/login}" th:object="${loginForm}" method="post" class="pure-form pure-form-aligned">
+                <fieldset>
+                    <div class="pure-control-group">
+                        <label for="username">Username</label>
+                        <input id="username" th:field="*{username}" type="text" placeholder="Username" />
+                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</p>
+                    </div>
+
+                    <div class="pure-control-group">
+                        <label for="password">Password</label>
+                        <input id="password" th:field="*{password}" type="password" placeholder="Password" />
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</p>
+                    </div>
+
+                    <div class="pure-controls">
+                        <button type="submit" class="pure-button pure-button-primary">Login</button>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>
