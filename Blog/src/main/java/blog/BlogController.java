@@ -97,6 +97,34 @@ public class BlogController {
         return "profil";
     }
 
+    @RequestMapping(value = "/hashtag/{tag}", method = RequestMethod.GET)
+    public String hashtag(@PathVariable String tag, Model model) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        Post[] postI = restTemplate.getForObject("http://localhost:8000/api/posts", Post[].class);
+
+
+        int p =0;
+        for(int i =0;i<postI.length;i++)
+        {
+           if(postI[i].getTags().contains(tag)){
+               p++;
+           }
+
+        }
+        Post[] posts = new Post[p];
+        p =0;
+        for(int i =0;i<postI.length;i++)
+        {
+            if(postI[i].getTags().contains(tag)){
+                posts[p]=postI[i];
+                p++;
+            }
+
+        }        model.addAttribute("posts", posts);
+
+        return "postHashtag";
+    }
 
     @RequestMapping(value = "/commentaire", method = RequestMethod.GET)
     public String showCommentaire(CommentaireForm commentaireForm) {
@@ -125,7 +153,7 @@ public class BlogController {
         }
         RestTemplate restTemplate = new RestTemplate();
         Post p = new Post(
-                "dimitri",
+                this.user.getUsername(),
                 commentaireForm.getCommentaire() + tag,
                 tags
         );

@@ -8,4 +8,6 @@ import java.util.List;
 public interface PostRepository extends CrudRepository<Post, Long> {
 
     public List<Post> findByAuteur(String auteur);
+
+
 }

@@ -45,7 +45,7 @@
                         <p class="post-meta">
                             By <a th:text="${post.auteur}" class="post-author" th:href="@{'/profil/' + ${post.auteur}}">auteur</a>
                             under
-                            <a th:each="tag : ${post.tags}" th:text="'#' + ${tag}" class="post-category post-category-js" href="../hashtags/DarkSide.html">#tag</a>
+                            <a th:each="tag : ${post.tags}" th:text="'#' + ${tag}" class="post-category post-category-js" th:href="@{'/hashtag/' + ${tag}}">#tag</a>
                         </p>
                     </section>
 
