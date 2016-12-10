@@ -56,3 +56,6 @@ local.properties
 #dossier target
 target
 
+.idea
+Blog/.idea
+ServicesBlog/.idea
