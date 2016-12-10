@@ -1,5 +1,7 @@
 package blog;
 
+import blog.Entity.ListPost;
+import blog.Entity.Post;
 import blog.Entity.User;
 import blog.Form.InscriptionForm;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class BlogController {
@@ -50,9 +53,13 @@ public class BlogController {
     @RequestMapping(value = "/profil/{name}", method = RequestMethod.GET)
     public String profil(@PathVariable String name, Model model) {
         RestTemplate restTemplate = new RestTemplate();
-        User user = restTemplate.getForObject("http://localhost:8000/api/users/" + name, User.class);
 
-        model.addAttribute(user);
+        User user = restTemplate.getForObject("http://localhost:8000/api/users/" + name, User.class);
+        Post[] posts = restTemplate.getForObject("http://localhost:8000/api/posts/list/" + name, Post[].class);
+
+        model.addAttribute("user", user);
+        model.addAttribute("posts", posts);
+
         return "profil";
     }
 }

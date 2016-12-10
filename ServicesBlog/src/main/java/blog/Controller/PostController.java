@@ -17,6 +17,11 @@ public class PostController {
         return this.repository.findAll();
     }
 
+    @RequestMapping(value = "/list/{auteur}", method = RequestMethod.GET)
+    public Iterable<Post> getPostsByAuteur(@PathVariable String auteur) {
+        return this.repository.findByAuteur(auteur);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Post getPost(@PathVariable Long id) {
         return this.repository.findOne(id);
@@ -31,6 +36,7 @@ public class PostController {
     public Post putPost(@PathVariable Long id, @RequestBody Post post) {
         Post p = this.repository.findOne(id);
 
+        p.setAuteur(post.getAuteur());
         p.setMessage(post.getMessage());
         p.setTags(post.getTags());
 

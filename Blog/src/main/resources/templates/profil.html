@@ -64,33 +64,18 @@
         <div class="posts">
             <h1 class="content-subhead">Last tweets</h1>
             <div>
-                <section class="post">
+
+                <section th:each="post : ${posts}" class="post">
                     <img class="post-avatar" alt="Yoda&#x27;s avatar" height="48" width="48" src="../images/yoda-avatar.png"/>
 
                     <div class="post-description">
-                        <p><a class="post-author" href="../profils/vador.html">@Vador</a> : Stop this #DarkSide bullshit you should</p>
+                        <p th:text="${post.message}">message</p>
                     </div>
 
                     <p class="post-meta">
-                        21 minutes ago -
-                        By <a class="post-author" href="../profils/yoda.html">Yoda</a>
+                        By <a th:text="${post.auteur}" class="post-author" th:href="@{'/profil/' + ${post.auteur}}">auteur</a>
                         under
-                        <a class="post-category post-category-js" href="../hashtags/DarkSide.html">#DarkSide</a>
-                    </p>
-                </section>
-
-                <section class="post">
-                    <img class="post-avatar" alt="vador&#x27;s avatar" height="48" width="48" src="../images/vador-avatar.png"/>
-
-                    <div class="post-description">
-                        <p><a class="post-author" href="../profils/luke.html">@Luke</a>, come join me to the #DarkSide, we have #Cookies</p>
-                    </div>
-
-                    <p class="post-meta">
-                        32 minutes ago -
-                        By <a class="post-author" href="../profils/vador.html">Vador</a>
-                        under
-                        <a class="post-category post-category-js" href="../hashtags/DarkSide.html">#DarkSide</a> <a class="post-category post-category-js" href="../hashtags/Cookies.html">#Cookies</a>
+                        <a th:each="tag : ${post.tags}" th:text="'#' + ${tag}" class="post-category post-category-js" href="../hashtags/DarkSide.html">#tag</a>
                     </p>
                 </section>
 
