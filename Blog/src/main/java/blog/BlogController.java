@@ -1,6 +1,5 @@
 package blog;
 
-import blog.Entity.ListPost;
 import blog.Entity.Post;
 import blog.Entity.User;
 import blog.Form.InscriptionForm;
@@ -10,20 +9,22 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class BlogController {
 
     @RequestMapping("/")
-    public String acceuil(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        model.addAttribute("path",System.getProperty("user.dir"));
-        return "acceuil";
+    public String index(Model model) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        Post[] posts = restTemplate.getForObject("http://localhost:8000/api/posts", Post[].class);
+
+        model.addAttribute("posts", posts);
+
+        return "accueil";
     }
 
     @RequestMapping(value = "/inscription", method = RequestMethod.GET)
