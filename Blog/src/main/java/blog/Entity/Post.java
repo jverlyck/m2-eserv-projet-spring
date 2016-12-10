@@ -8,6 +8,13 @@ public class Post {
     private String message;
     private List<String> tags;
 
+    public Post() {}
+
+    public Post(String auteur,String message,List<String> tags){
+        this.auteur = auteur;
+        this.message = message;
+        this.tags = tags;
+    }
     public String getAuteur() {
         return auteur;
     }

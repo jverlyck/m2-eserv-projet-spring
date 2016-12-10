@@ -55,4 +55,6 @@ public class InscriptionForm {
                 ", Password: " + this.password +
                 ", Avatar: " + this.avatar + ")";
     }
+
+
 }
