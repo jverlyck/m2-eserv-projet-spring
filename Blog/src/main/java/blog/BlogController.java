@@ -32,7 +32,7 @@ public class BlogController {
     }
 
     @RequestMapping("/")
-    public String index(Model model) {
+    public String index(Model model,CommentaireForm commentaireForm) {
         RestTemplate restTemplate = new RestTemplate();
 
         Post[] posts = restTemplate.getForObject("http://localhost:8000/api/posts", Post[].class);
