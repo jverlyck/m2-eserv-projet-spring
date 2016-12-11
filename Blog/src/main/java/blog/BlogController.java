@@ -71,6 +71,12 @@ public class BlogController {
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout() {
+        this.user = null;
+        return "redirect:/";
+    }
+
     @RequestMapping(value = "/inscription", method = RequestMethod.GET)
     public String showInscription(InscriptionForm inscriptionForm) {
         return "inscription";
@@ -106,6 +112,10 @@ public class BlogController {
 
         model.addAttribute("user", user);
         model.addAttribute("posts", posts);
+
+        if(this.user != null) {
+            model.addAttribute("username", this.user.getUsername());
+        }
 
         return "profil";
     }
