@@ -6,12 +6,14 @@ import blog.Form.EditProfilForm;
 import blog.Form.InscriptionForm;
 import blog.Form.LoginForm;
 import blog.Form.CommentaireForm;
+import blog.storage.StorageFileNotFoundException;
+import blog.storage.StorageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
@@ -22,6 +24,12 @@ import java.util.List;
 public class BlogController {
 
     private User user;
+    private final StorageService storageService;
+
+    @Autowired
+    public BlogController(StorageService storageService) {
+        this.storageService = storageService;
+    }
 
     @RequestMapping("/")
     public String index(Model model) {
@@ -71,12 +79,14 @@ public class BlogController {
             return "inscription";
         }
 
+        storageService.store(inscriptionForm.getAvatar());
+
         RestTemplate restTemplate = new RestTemplate();
         User u = new User(
             inscriptionForm.getUsername(),
             inscriptionForm.getEmail(),
             inscriptionForm.getPassword(),
-            inscriptionForm.getAvatar()
+            inscriptionForm.getAvatar().getOriginalFilename()
         );
 
         User user = restTemplate.postForObject("http://localhost:8000/api/users/", u, User.class);
@@ -171,7 +181,6 @@ public class BlogController {
 
         model.addAttribute("username", this.user.getUsername());
         model.addAttribute("email", this.user.getEmail());
-        model.addAttribute("avatar", this.user.getAvatar());
 
         return "editProfil";
     }
@@ -182,20 +191,23 @@ public class BlogController {
             return "redirect:login";
         }
 
+        System.out.println(bindingResult.getModel());
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", true);
             model.addAttribute("username", this.user.getUsername());
             model.addAttribute("email", editProfilForm.getEmail());
-            model.addAttribute("avatar", editProfilForm.getAvatar());
             return "editProfil";
         }
+
+        this.storageService.store(editProfilForm.getAvatar());
 
         RestTemplate restTemplate = new RestTemplate();
         User u = new User(
                 this.user.getUsername(),
                 editProfilForm.getEmail(),
                 this.user.getPassword(),
-                editProfilForm.getAvatar()
+                editProfilForm.getAvatar().getOriginalFilename()
         );
 
         restTemplate.put("http://localhost:8000/api/users/" + this.user.getId(), u, User.class);
@@ -204,5 +216,10 @@ public class BlogController {
 
         return "redirect:profil/" + this.user.getUsername();
 
+    }
+
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    public ResponseEntity handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return ResponseEntity.notFound().build();
     }
 }

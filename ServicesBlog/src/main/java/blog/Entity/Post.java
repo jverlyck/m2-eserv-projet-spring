@@ -11,6 +11,7 @@ public class Post {
     private Long id;
 
     private String auteur;
+    private String avatar;
     private String message;
 
     @ElementCollection(targetClass = String.class)
@@ -18,8 +19,9 @@ public class Post {
 
     public Post() {}
 
-    public Post(String auteur, String message, List<String> tags) {
+    public Post(String auteur, String message, String avatar, List<String> tags) {
         this.auteur = auteur;
+        this.avatar = avatar;
         this.message = message;
         this.tags = tags;
     }
@@ -34,6 +36,14 @@ public class Post {
 
     public void setAuteur(String auteur) {
         this.auteur = auteur;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getMessage() {

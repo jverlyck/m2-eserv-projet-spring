@@ -37,7 +37,7 @@
             <div>
                 <h1>Inscription</h1>
 
-                <form action="#" th:action="@{/inscription}" th:object="${inscriptionForm}" method="post" class="pure-form pure-form-aligned">
+                <form action="#" th:action="@{/inscription}" th:object="${inscriptionForm}" method="post" enctype="multipart/form-data" class="pure-form pure-form-aligned">
                     <fieldset>
                         <div class="pure-control-group">
                             <label for="username">Username</label>
@@ -59,8 +59,7 @@
 
                         <div class="pure-control-group">
                             <label for="avatar">Avatar</label>
-                            <input id="avatar" th:field="*{avatar}" type="text" placeholder="Avatar" />
-                            <p th:if="${#fields.hasErrors('avatar')}" th:errors="*{avatar}">Avatar Error</p>
+                            <input id="avatar" th:field="*{avatar}" type="file" />
                         </div>
 
                         <div class="pure-controls">

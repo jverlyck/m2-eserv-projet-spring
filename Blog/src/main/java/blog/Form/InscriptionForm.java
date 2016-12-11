@@ -1,5 +1,7 @@
 package blog.Form;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -14,7 +16,7 @@ public class InscriptionForm {
     @Size(min=6, max=30)
     private String password;
 
-    private String avatar;
+    private MultipartFile avatar;
 
     public String getUsername() {
         return username;
@@ -40,21 +42,11 @@ public class InscriptionForm {
         this.password = password;
     }
 
-    public String getAvatar() {
+    public MultipartFile getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(MultipartFile avatar) {
         this.avatar = avatar;
     }
-
-    @Override
-    public String toString() {
-        return "User(Username: " + this.username +
-                ", Email: " + this.email +
-                ", Password: " + this.password +
-                ", Avatar: " + this.avatar + ")";
-    }
-
-
 }

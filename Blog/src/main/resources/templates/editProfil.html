@@ -37,7 +37,7 @@
         <div>
             <h1>Editer profil</h1>
 
-            <form action="#" th:action="@{/profil-edit}" th:object="${editProfilForm}" method="post" class="pure-form pure-form-aligned">
+            <form action="#" th:action="@{/profil-edit}" th:object="${editProfilForm}" enctype="multipart/form-data" method="post" class="pure-form pure-form-aligned">
                 <fieldset>
                     <div class="pure-control-group">
                         <label>Username</label>
@@ -51,7 +51,7 @@
 
                     <div class="pure-control-group">
                         <label for="avatar">Avatar</label>
-                        <input id="avatar" name="avatar" type="text" placeholder="Avatar" th:value="${avatar}" />
+                        <input id="avatar" th:field="*{avatar}" type="file" />
                     </div>
 
                     <p th:if="${error}">Il faut remplir le champ mail</p>

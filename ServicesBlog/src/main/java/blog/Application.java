@@ -39,9 +39,9 @@ public class Application implements CommandLineRunner {
         List<String> tags = new ArrayList<String>();
         tags.add("Welcome");
         tags.add("Test");
-        postRepository.save(new Post("Jerome", "Mon premier message", tags));
-        postRepository.save(new Post("Jerome", "Mon deuxieme message", tags));
-        postRepository.save(new Post("Dimitri", "Mon premier message", tags));
+        postRepository.save(new Post("Jerome", "Mon premier message", "test.png", tags));
+        postRepository.save(new Post("Jerome", "Mon deuxieme message", "test.png",  tags));
+        postRepository.save(new Post("Dimitri", "Mon premier message", "test.png", tags));
     }
 
 }

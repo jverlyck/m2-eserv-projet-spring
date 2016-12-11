@@ -39,7 +39,7 @@
             <div>
 
                 <section th:each="post : ${posts}" class="post">
-                    <img class="post-avatar" alt="Yoda&#x27;s avatar" height="48" width="48" src="../images/yoda-avatar.png"/>
+                    <img class="post-avatar" height="48" width="48" th:src="@{'/upload-dir/' + ${post.avatar}} "/>
 
                     <div class="post-description">
                         <p th:text="${post.message}">message</p>

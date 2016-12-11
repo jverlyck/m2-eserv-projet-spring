@@ -39,7 +39,7 @@
             <div class="posts">
                 <h1 class="content-subhead">Profile</h1>
                 <h1 th:text="${user.username}">Profil</h1>
-                <img class="avatar" src="../images/vador-avatar.png"/>
+                <img class="post-avatar" height="96" width="96" th:src="@{'/upload-dir/' + ${user.avatar}} "/>
 
                 <form class="pure-form pure-form-aligned">
                     <fieldset>
@@ -66,7 +66,7 @@
             <div>
 
                 <section th:each="post : ${posts}" class="post">
-                    <img class="post-avatar" alt="Yoda&#x27;s avatar" height="48" width="48" src="../images/yoda-avatar.png"/>
+                    <img class="post-avatar" height="48" width="48" th:src="@{'/upload-dir/' + ${post.avatar}} "/>
 
                     <div class="post-description">
                         <p th:text="${post.message}">message</p>
