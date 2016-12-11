@@ -30,6 +30,9 @@ public class BlogController {
         Post[] posts = restTemplate.getForObject("http://localhost:8000/api/posts", Post[].class);
 
         model.addAttribute("posts", posts);
+        if(this.user != null) {
+            model.addAttribute("username", this.user.getUsername());
+        }
 
         return "accueil";
     }
@@ -122,6 +125,10 @@ public class BlogController {
             }
 
         }        model.addAttribute("posts", posts);
+        if(this.user != null) {
+            model.addAttribute("username", this.user.getUsername());
+        }
+
 
         return "postHashtag";
     }
@@ -135,6 +142,9 @@ public class BlogController {
     public String checkCommentaire(@Valid CommentaireForm commentaireForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "commentaire";
+        }
+        if(this.user == null) {
+            return "redirect:login";
         }
         List<String> tags = new ArrayList<String>();
         String tag = "";
@@ -151,6 +161,7 @@ public class BlogController {
                 tag = "";
             }
         }
+
         RestTemplate restTemplate = new RestTemplate();
         Post p = new Post(
                 this.user.getUsername(),
@@ -172,6 +183,9 @@ public class BlogController {
         model.addAttribute("username", this.user.getUsername());
         model.addAttribute("email", this.user.getEmail());
         model.addAttribute("avatar", this.user.getAvatar());
+        if(this.user != null) {
+            model.addAttribute("username", this.user.getUsername());
+        }
 
         return "editProfil";
     }
