@@ -32,7 +32,7 @@ public class Application implements CommandLineRunner {
         // save a couple of users
         userRepository.save(new User("Jerome", "jerome@gmail.com", "jerome", "test.png"));
         userRepository.save(new User("Test", "test@gmail.com", "testtest", "test.png"));
-        userRepository.save(new User("Dimitri", "dimitri@gmail.com", "dimitri", "test.png"));
+        userRepository.save(new User("Dimitri", "dimitri@gmail.com", "dimitri", "yoshi.png"));
 
         postRepository.deleteAll();
 
@@ -41,7 +41,7 @@ public class Application implements CommandLineRunner {
         tags.add("Test");
         postRepository.save(new Post("Jerome", "Mon premier message", "test.png", tags));
         postRepository.save(new Post("Jerome", "Mon deuxieme message", "test.png",  tags));
-        postRepository.save(new Post("Dimitri", "Mon premier message", "test.png", tags));
+        postRepository.save(new Post("Dimitri", "Mon premier message", "yoshi.png", tags));
     }
 
 }

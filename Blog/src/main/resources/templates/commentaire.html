@@ -26,9 +26,17 @@
 
                 <nav class="nav">
                     <ul class="nav-list">
+                    <p th:if="${username} == null" >
                         <li class="nav-item">
-                            <a class="pure-button" href="/login">Login</a></li>
-                    </ul>
+                        <a class="pure-button" th:href="@{/inscription}">Inscription</a>
+                        <a class="pure-button" th:href="@{/login}">Login</a></li>
+                    </p>
+                    <p th:if="${username} != null" >
+                        <li class="nav-item">
+                        <a class="pure-button" th:href="@{/profil-edit}">Edit</a></li>
+                    </p>
+
+                </ul>
                 </nav>
             </div>
         </div>
