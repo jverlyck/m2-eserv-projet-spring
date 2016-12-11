@@ -11,8 +11,9 @@ public class Post {
 
     public Post() {}
 
-    public Post(String auteur,String message,List<String> tags){
+    public Post(String auteur,String avatar, String message,List<String> tags){
         this.auteur = auteur;
+        this.avatar = avatar;
         this.message = message;
         this.tags = tags;
     }

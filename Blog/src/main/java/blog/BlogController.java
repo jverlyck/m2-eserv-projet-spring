@@ -164,6 +164,7 @@ public class BlogController {
         RestTemplate restTemplate = new RestTemplate();
         Post p = new Post(
                 this.user.getUsername(),
+                this.user.getAvatar(),
                 commentaireForm.getCommentaire() + tag,
                 tags
         );
